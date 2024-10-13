@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KMeans Clustering - Customer Segmentation</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2 class="mt-5">Customer Segmentation - KMeans Clustering</h2>
+        <form id="predictionForm">
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="income">Annual Income (k$):</label>
+                <input type="number" id="income" name="income" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="spending_score">Spending Score (1-100):</label>
+                <input type="number" id="spending_score" name="spending_score" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Predict Cluster</button>
+        </form>
+        <h3 class="mt-4" id="output"></h3>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('#predictionForm').on('submit', function(e){
+                e.preventDefault();
+                
+                $.ajax({
+                    url: '/predict',
+                    type: 'POST',
+                    data: $('#predictionForm').serialize(),
+                    success: function(response){
+                        $('#output').text("Predicted Cluster: " + response.cluster);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
